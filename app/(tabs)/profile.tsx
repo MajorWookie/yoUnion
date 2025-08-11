@@ -20,7 +20,8 @@ export default function ProfileScreen() {
       await signOut()
       router.replace('/(auth)/login')
     } catch (error) {
-      console.error('Sign out error:', error)
+      // Handle sign out error silently
+      // In production, you might want to show a toast or alert
     }
   }
 
@@ -79,7 +80,7 @@ export default function ProfileScreen() {
         <Card padding="$4">
           <YStack space="$4">
             <Heading size="$5">Preferences</Heading>
-            
+
             <XStack alignItems="center" justifyContent="space-between">
               <XStack alignItems="center" space="$3">
                 {getThemeIcon()}
@@ -126,7 +127,7 @@ export default function ProfileScreen() {
         <Card padding="$4">
           <YStack space="$4">
             <Heading size="$5">Account</Heading>
-            
+
             <Button
               size="$4"
               chromeless

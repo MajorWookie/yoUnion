@@ -1,9 +1,7 @@
-import { useEffect } from 'react'
 import { Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { TamaguiProvider } from '@tamagui/core'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useFrameworkReady } from '@/hooks/useFrameworkReady'
 import config from '@/tamagui.config'
 
 const queryClient = new QueryClient({
@@ -16,8 +14,6 @@ const queryClient = new QueryClient({
 })
 
 export default function RootLayout() {
-  useFrameworkReady()
-
   return (
     <TamaguiProvider config={config}>
       <QueryClientProvider client={queryClient}>

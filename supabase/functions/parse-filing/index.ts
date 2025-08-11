@@ -52,7 +52,7 @@ Deno.serve(async (req: Request) => {
     // 4. Clean and normalize text content
     // 5. Store sections in database
 
-    console.log("Parsing filing:", { filingId, form, secUrl });
+    // Parsing filing
 
     // Placeholder parsed sections
     const mockSections: FilingSection[] = [

@@ -7,32 +7,45 @@ vi.mock('@/lib/supabase', () => ({
   supabase: {
     from: vi.fn(() => ({
       select: vi.fn(() => ({
+        // For searchCompanies chain: .or().order().limit()
         or: vi.fn(() => ({
           order: vi.fn(() => ({
-            limit: vi.fn(() => Promise.resolve({
-              data: [
-                { id: '1', ticker: 'AAPL', name: 'Apple Inc.', logo_url: null }
-              ],
-              error: null
-            }))
-          }))
-        }))
+            limit: vi.fn(() =>
+              Promise.resolve({
+                data: [
+                  { id: '1', ticker: 'AAPL', name: 'Apple Inc.', logo_url: null },
+                ],
+                error: null,
+              })
+            ),
+          })),
+        })),
+        // For getCompanyOverview chain: .eq().single()
+        eq: vi.fn(() => ({
+          single: vi.fn(() =>
+            Promise.resolve({
+              data: {
+                id: '1',
+                ticker: 'AAPL',
+                name: 'Apple Inc.',
+                ceo_name: 'Tim Cook',
+                logo_url: null,
+                ceo_pay_ratio: [
+                  {
+                    year: 2023,
+                    ceo_total_comp: 99000000,
+                    median_employee_pay: 68000,
+                    ratio: 1456,
+                  },
+                ],
+              },
+              error: null,
+            })
+          ),
+        })),
       })),
-      eq: vi.fn(() => ({
-        single: vi.fn(() => Promise.resolve({
-          data: {
-            id: '1',
-            ticker: 'AAPL',
-            name: 'Apple Inc.',
-            ceo_name: 'Tim Cook',
-            logo_url: null,
-            ceo_pay_ratio: [{ year: 2023, ceo_total_comp: 99000000, median_employee_pay: 68000, ratio: 1456 }]
-          },
-          error: null
-        }))
-      }))
-    }))
-  }
+    })),
+  },
 }))
 
 describe('Companies API', () => {
@@ -43,9 +56,9 @@ describe('Companies API', () => {
   describe('searchCompanies', () => {
     it('should search companies by query', async () => {
       const result = await searchCompanies('Apple')
-      
+
       expect(result).toEqual([
-        { id: '1', ticker: 'AAPL', name: 'Apple Inc.', logo_url: null }
+        { id: '1', ticker: 'AAPL', name: 'Apple Inc.', logo_url: null },
       ])
       expect(supabase.from).toHaveBeenCalledWith('companies')
     })
@@ -54,7 +67,7 @@ describe('Companies API', () => {
   describe('getCompanyOverview', () => {
     it('should return company overview with pay ratio', async () => {
       const result = await getCompanyOverview('AAPL')
-      
+
       expect(result).toEqual({
         id: '1',
         ticker: 'AAPL',
@@ -65,8 +78,8 @@ describe('Companies API', () => {
           year: 2023,
           ceoTotalComp: 99000000,
           medianEmployeePay: 68000,
-          ratio: 1456
-        }
+          ratio: 1456,
+        },
       })
     })
   })

@@ -51,7 +51,7 @@ Deno.serve(async (req: Request) => {
     // 3. Queue for content parsing and processing
     // 4. Return success response
 
-    console.log("Received filing data:", filingData);
+    // Processing filing data
 
     // Placeholder response
     const response = {

@@ -57,7 +57,7 @@ Deno.serve(async (req: Request) => {
     // 4. Validate and clean numerical values
     // 5. Store in financial_statements and financial_lines tables
 
-    console.log("Computing financials for filing:", { filingId, form });
+    // Computing financials for filing
 
     // Placeholder financial lines for income statement
     const mockIncomeStatementLines: FinancialLine[] = [

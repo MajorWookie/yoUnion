@@ -58,7 +58,7 @@ export default function FilingsScreen() {
         padding="$4"
         onPress={() => {
           // TODO: Navigate to filing detail screen
-          console.log('Opening filing:', item.id)
+          // Opening filing
         }}
       >
         <ListItem.Text>
@@ -84,7 +84,7 @@ export default function FilingsScreen() {
               </XStack>
               <ExternalLink size={16} color="$gray10" />
             </XStack>
-            
+
             <XStack alignItems="center" space="$2" marginLeft="$11">
               <Calendar size={14} color="$gray10" />
               <Paragraph size="$2" color="$gray11">

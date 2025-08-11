@@ -50,11 +50,7 @@ Deno.serve(async (req: Request) => {
     // 3. Store embeddings with metadata in database
     // 4. Index for fast similarity search
 
-    console.log("Generating embeddings:", { 
-      filingId, 
-      companyId, 
-      chunksCount: chunks.length 
-    });
+    // Generating embeddings for filing
 
     // Placeholder response
     const response = {
