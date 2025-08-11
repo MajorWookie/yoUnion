@@ -13,8 +13,8 @@
       "bundleIdentifier": "com.majorwookie.younion"
     },
     "web": {
-      "bundler": "metro",
-      "output": "single",
+      "bundler": "webpack",
+      "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [

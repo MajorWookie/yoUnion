@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
+    "@expo/webpack-config": "^19.0.1",
     "@hookform/resolvers": "^3.3.4",
     "@lucide/lab": "^0.1.2",
     "@react-native-async-storage/async-storage": "2.1.2",
@@ -75,6 +76,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@react-native-community/cli": "latest",
     "@testing-library/react-native": "^12.7.2",
     "@types/react": "~18.3.0",
     "@vitest/coverage-v8": "^2.1.4",
@@ -82,7 +84,6 @@
     "jsdom": "^25.0.1",
     "react-test-renderer": "18.3.1",
     "typescript": "~5.8.3",
-    "vitest": "^3.2.4",
-    "@react-native-community/cli": "latest"
+    "vitest": "^3.2.4"
   }
 }
