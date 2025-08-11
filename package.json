@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "EXPO_NO_TELEMETRY=1 expo start --clear",
+    "dev": "EXPO_NO_TELEMETRY=1 npx expo start --clear",
     "dev:lan": "EXPO_NO_TELEMETRY=1 expo start --lan",
     "dev:tunnel": "EXPO_NO_TELEMETRY=1 expo start --tunnel",
     "dev:prod": "EXPO_NO_TELEMETRY=1 expo start --no-dev --minify",
