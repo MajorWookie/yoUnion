@@ -65,7 +65,7 @@ jest.mock('@tamagui/core', () => {
 })
 
 // Mock icons used by components
-jest.mock('lucide-react-native', () => ({
+jest.mock('@tamagui/lucide-icons', () => ({
   Search: () => null,
 }))
 

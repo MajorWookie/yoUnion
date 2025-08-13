@@ -1,5 +1,5 @@
 import { YStack, Heading, Paragraph, Button } from '@tamagui/core'
-import { TriangleAlert as AlertTriangle } from 'lucide-react-native'
+import { TriangleAlert as AlertTriangle } from '@tamagui/lucide-icons'
 
 interface ErrorStateProps {
   title?: string
@@ -7,10 +7,10 @@ interface ErrorStateProps {
   onRetry?: () => void
 }
 
-export function ErrorState({ 
-  title = 'Something went wrong', 
-  description, 
-  onRetry 
+export function ErrorState({
+  title = 'Something went wrong',
+  description,
+  onRetry
 }: ErrorStateProps) {
   return (
     <YStack flex={1} alignItems="center" justifyContent="center" padding="$4" space="$4">

@@ -1,5 +1,5 @@
 import { YStack, Heading, Paragraph, Button } from '@tamagui/core'
-import { Search } from 'lucide-react-native'
+import { Search } from '@tamagui/lucide-icons'
 
 interface EmptyStateProps {
   title: string
@@ -9,11 +9,11 @@ interface EmptyStateProps {
   icon?: React.ReactNode
 }
 
-export function EmptyState({ 
-  title, 
-  description, 
-  actionText, 
-  onAction, 
+export function EmptyState({
+  title,
+  description,
+  actionText,
+  onAction,
   icon = <Search size={48} color="$gray10" />
 }: EmptyStateProps) {
   return (

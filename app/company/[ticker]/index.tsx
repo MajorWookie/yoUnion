@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { router, useLocalSearchParams } from 'expo-router'
 import { YStack, XStack, Heading, Paragraph, Button, Card, ScrollView, ToggleGroup } from '@tamagui/core'
-import { Building, FileText, DollarSign, Users } from 'lucide-react-native'
+import { Building, FileText, DollarSign, Users } from '@tamagui/lucide-icons'
 import { useQuery } from '@tanstack/react-query'
 import { getCompanyOverview, getIncomeStatement } from '@/lib/api/companies'
 import { useAppStore } from '@/lib/stores/app-store'
@@ -95,7 +95,7 @@ export default function CompanyOverviewScreen() {
                 <DollarSign size={24} color="$orange10" />
                 <Heading size="$5">CEO Pay Ratio ({company.payRatio.year})</Heading>
               </XStack>
-              
+
               <YStack space="$2">
                 <XStack justifyContent="space-between" alignItems="center">
                   <Paragraph size="$4" color="$gray11">CEO Total Compensation</Paragraph>
@@ -103,14 +103,14 @@ export default function CompanyOverviewScreen() {
                     {formatCurrency(company.payRatio.ceoTotalComp)}
                   </Heading>
                 </XStack>
-                
+
                 <XStack justifyContent="space-between" alignItems="center">
                   <Paragraph size="$4" color="$gray11">Median Employee Pay</Paragraph>
                   <Heading size="$5">
                     {formatCurrency(company.payRatio.medianEmployeePay)}
                   </Heading>
                 </XStack>
-                
+
                 <XStack justifyContent="space-between" alignItems="center" paddingTop="$2">
                   <Paragraph size="$4" fontWeight="600">Pay Ratio</Paragraph>
                   <Heading size="$6" color="$orange10">

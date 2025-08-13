@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { router } from 'expo-router'
 import { FlashList } from '@shopify/flash-list'
 import { YStack, XStack, Heading, Paragraph, Button, Input, Card, ListItem, Separator } from '@tamagui/core'
-import { Search, Building, TrendingUp } from 'lucide-react-native'
+import { Search, Building, TrendingUp } from '@tamagui/lucide-icons'
 import { useQuery } from '@tanstack/react-query'
 import { searchCompanies } from '@/lib/api/companies'
 import { useAppStore } from '@/lib/stores/app-store'
@@ -130,7 +130,7 @@ export default function HomeScreen() {
 
       <YStack flex={1} padding="$4">
         {isLoading && <LoadingSpinner />}
-        
+
         {error && (
           <ErrorState
             description="Failed to search companies. Please try again."

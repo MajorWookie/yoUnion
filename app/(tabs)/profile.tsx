@@ -1,7 +1,7 @@
 import React from 'react'
 import { router } from 'expo-router'
 import { YStack, XStack, Heading, Paragraph, Button, Card, Separator, Switch } from '@tamagui/core'
-import { User, Settings, LogOut, Moon, Sun, Smartphone } from 'lucide-react-native'
+import { User, Settings, LogOut, Moon, Sun, Smartphone } from '@tamagui/lucide-icons'
 import { useQuery } from '@tanstack/react-query'
 import { signOut, getProfile } from '@/lib/api/auth'
 import { useAppStore } from '@/lib/stores/app-store'

@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router'
-import { Chrome as Home, User } from 'lucide-react-native'
+import { Chrome as Home, User } from '@tamagui/lucide-icons'
 
 export default function TabLayout() {
   return (
