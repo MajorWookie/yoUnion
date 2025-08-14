@@ -62,6 +62,7 @@ export interface CompanyData {
 
 class EdgarService {
   private baseUrl = 'https://api.sec-api.io'
+  private userAgent = 'BetterHumanApplications-yoUnion/1.0 (https://betterhumanapplications.com)'
   private rateLimitDelay = 2000 // 2 seconds between requests (conservative)
   private lastRequestTime = 0
   private maxRetries = 3
@@ -102,6 +103,7 @@ class EdgarService {
       const response = await fetch(urlWithToken, {
         headers: {
           'Accept': 'application/json',
+          'User-Agent': this.userAgent,
         },
       })
 
