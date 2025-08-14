@@ -1,4 +1,4 @@
-import { YStack, Heading, Paragraph, Button } from '@tamagui/core'
+import { YStack, Heading, Paragraph, Button } from 'tamagui'
 import { Search } from '@tamagui/lucide-icons'
 
 interface EmptyStateProps {

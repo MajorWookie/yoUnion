@@ -56,7 +56,7 @@ export async function searchCompanies(query: string, limit = 20) {
       throw new ApiError(
         'Failed to search companies',
         error.code,
-        error.status,
+        undefined,
         error
       )
     }
@@ -108,7 +108,7 @@ export async function getCompanyOverview(ticker: string): Promise<CompanyOvervie
       throw new ApiError(
         'Failed to fetch company overview',
         companyError.code,
-        companyError.status,
+        undefined,
         companyError
       )
     }
@@ -182,7 +182,7 @@ export async function getIncomeStatement(
       throw new ApiError(
         'Failed to fetch income statement',
         error.code,
-        error.status,
+        undefined,
         error
       )
     }
@@ -247,7 +247,7 @@ export async function getCompanyFilings(
       throw new ApiError(
         'Failed to fetch filings',
         error.code,
-        error.status,
+        undefined,
         error
       )
     }
