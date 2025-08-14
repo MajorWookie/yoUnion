@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { FlashList } from '@shopify/flash-list'
-import { YStack, XStack, Heading, Paragraph, Card, ListItem, ToggleGroup } from '@tamagui/core'
+import { YStack, XStack, Heading, Paragraph, Card, ListItem, ToggleGroup } from 'tamagui'
 import { FileText, Calendar, ExternalLink } from '@tamagui/lucide-icons'
 import { useQuery } from '@tanstack/react-query'
 import { getCompanyOverview, getCompanyFilings } from '@/lib/api/companies'
