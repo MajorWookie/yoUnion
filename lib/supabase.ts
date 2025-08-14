@@ -38,7 +38,7 @@ export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
     persistSession: true,
     detectSessionInUrl: false,
     storage: AsyncStorage,
-    storageKey: 'younion-auth',
+    storageKey: 'yoUnion-auth',
     flowType: 'pkce', // More secure for mobile apps
   },
   global: {

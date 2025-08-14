@@ -27,12 +27,12 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="younion"/>
-        <data android:scheme="exp+younion"/>
+        <data android:scheme="yoUnion"/>
+        <data android:scheme="exp+yoUnion"/>
       </intent-filter>
       <intent-filter android:autoVerify="true" data-generated="true">
         <action android:name="android.intent.action.VIEW"/>
-        <data android:scheme="https" android:host="younion.app" android:pathPrefix="/"/>
+        <data android:scheme="https" android:host="yoUnion.app" android:pathPrefix="/"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <category android:name="android.intent.category.DEFAULT"/>
       </intent-filter>

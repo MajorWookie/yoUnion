@@ -43,7 +43,7 @@ export const useAppStore = create<AppState>()(
       setLastViewedCompany: (ticker) => set({ lastViewedCompany: ticker }),
     }),
     {
-      name: 'younion-app-storage',
+      name: 'yoUnion-app-storage',
       storage: createJSONStorage(() => AsyncStorage),
     }
   )

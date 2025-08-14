@@ -1,6 +1,6 @@
-# Younion - Financial Data for Employees
+# yoUnion - Financial Data for Employees
 
-Younion is a React Native app built with Expo that helps employees understand their public company's financial data through intuitive interfaces and plain-English summaries.
+yoUnion is a React Native app built with Expo that helps employees understand their public company's financial data through intuitive interfaces and plain-English summaries.
 
 ## 🚀 Features
 
@@ -56,20 +56,23 @@ supabase/
 ## 🏗 Database Schema
 
 ### Core Tables
+
 - `companies` - Public company information
-- `filings` - SEC filing metadata  
+- `filings` - SEC filing metadata
 - `financial_statements` - Parsed financial data
 - `financial_lines` - Individual line items
 - `ceo_pay_ratio` - Executive compensation ratios
 - `profiles` - User profile information
 
 ### Data Processing
+
 - `filing_sections` - Parsed filing content
 - `embeddings` - Vector embeddings for RAG search
 
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
 - Expo CLI
 - Supabase account (for backend)
@@ -77,25 +80,29 @@ supabase/
 ### Installation
 
 1. **Clone and install dependencies**
+
 ```bash
 git clone <repository-url>
-cd younion
+cd yoUnion
 npm install
 ```
 
 2. **Set up environment variables**
+
 ```bash
 cp .env.example .env
 ```
 
 Fill in your Supabase credentials:
+
 ```
 EXPO_PUBLIC_SUPABASE_URL=your_supabase_url
 EXPO_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
 3. **Set up database**
-Run the migration files in your Supabase dashboard or via CLI:
+   Run the migration files in your Supabase dashboard or via CLI:
+
 ```bash
 # Apply migrations
 supabase db reset
@@ -105,6 +112,7 @@ supabase db seed
 ```
 
 4. **Start development server**
+
 ```bash
 npm run dev
 ```
@@ -112,17 +120,20 @@ npm run dev
 ## 📱 Usage
 
 ### Search Companies
+
 1. Open the app and search for any public company
 2. Results show company name, ticker, and basic info
 3. Tap to view detailed company overview
 
 ### View Financial Data
+
 1. Company overview shows CEO info and pay ratio
 2. Interactive pie chart displays income statement data
 3. Toggle between Annual/Quarterly periods
 4. Switch between Simple and Detailed chart views
 
 ### Browse SEC Filings
+
 1. Access all company filings (10-K, 10-Q, 8-K, DEF 14A)
 2. Filter by filing type
 3. View filing details and sections
@@ -196,12 +207,12 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 🆘 Support
 
-For support, email support@younion.app or open an issue in the GitHub repository.
+For support, email support@yoUnion.app or open an issue in the GitHub repository.
 
 ## 🗺 Roadmap
 
 - [ ] Advanced financial ratio calculations
-- [ ] Peer company comparisons  
+- [ ] Peer company comparisons
 - [ ] Push notifications for new filings
 - [ ] AI-powered financial insights
 - [ ] Insider trading activity tracking

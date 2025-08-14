@@ -1,4 +1,4 @@
-package com.majorwookie.younion
+package com.majorwookie.yoUnion
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

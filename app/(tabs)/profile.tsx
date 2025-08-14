@@ -143,7 +143,7 @@ export default function ProfileScreen() {
 
         <YStack alignItems="center" marginTop="$4">
           <Paragraph size="$2" color="$gray11">
-            Younion v1.0.0
+            yoUnion v1.0.0
           </Paragraph>
         </YStack>
       </YStack>

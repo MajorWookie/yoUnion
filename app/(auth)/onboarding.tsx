@@ -69,7 +69,7 @@ export default function OnboardingScreen() {
       <Card padding="$6" maxWidth={400} alignSelf="center" width="100%">
         <YStack space="$6">
           <YStack space="$4" alignItems="center">
-            <Heading size="$7">Welcome to Younion</Heading>
+            <Heading size="$7">Welcome to yoUnion</Heading>
             <Paragraph size="$4" color="$gray11" textAlign="center">
               Let's set up your profile to get personalized financial insights
             </Paragraph>

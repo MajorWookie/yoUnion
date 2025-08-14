@@ -1,4 +1,4 @@
--- Initial Database Setup for Younion Database
+-- Initial Database Setup for yoUnion Database
 -- Creates all tables, indexes, functions, and RLS policies from scratch
 -- =============================================================================
 -- SETUP EXTENSIONS

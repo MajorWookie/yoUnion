@@ -37,7 +37,7 @@ export default function LoginScreen() {
       <Card padding="$6" maxWidth={400} alignSelf="center" width="100%">
         <YStack space="$6">
           <YStack space="$2" alignItems="center">
-            <Heading size="$8" color="$blue10">Younion</Heading>
+            <Heading size="$8" color="$blue10">yoUnion</Heading>
             <Paragraph size="$4" color="$gray11" textAlign="center">
               Sign in to access your financial data
             </Paragraph>

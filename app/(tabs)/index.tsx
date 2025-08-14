@@ -165,9 +165,9 @@ function HomeScreenContent() {
     <YStack flex={1} backgroundColor="$background">
       <YStack padding="$4" paddingTop="$8" space="$4">
         <YStack space="$2">
-          <Heading size="$8" color="$blue10">Younion</Heading>
+          <Heading size="$8" color="$blue10">yoUnion</Heading>
           <Paragraph size="$4" color="$gray11">
-            Financial transparency for employees
+            Financial transparency for working people
           </Paragraph>
         </YStack>
 
