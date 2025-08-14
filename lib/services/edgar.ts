@@ -62,8 +62,10 @@ export interface CompanyData {
 
 class EdgarService {
   private baseUrl = 'https://api.sec-api.io'
-  private rateLimitDelay = 100 // 100ms between requests
+  private rateLimitDelay = 2000 // 2 seconds between requests (conservative)
   private lastRequestTime = 0
+  private maxRetries = 3
+  private backoffMultiplier = 2
   
   private getApiKey(): string {
     const apiKey = process.env.SEC_API_KEY || ''
@@ -82,32 +84,69 @@ class EdgarService {
     const timeSinceLastRequest = now - this.lastRequestTime
     
     if (timeSinceLastRequest < this.rateLimitDelay) {
-      await this.delay(this.rateLimitDelay - timeSinceLastRequest)
+      const waitTime = this.rateLimitDelay - timeSinceLastRequest
+      console.log(`⏱️  Rate limiting: waiting ${waitTime}ms...`)
+      await this.delay(waitTime)
     }
     
     this.lastRequestTime = Date.now()
   }
 
-  private async makeRequest(url: string): Promise<any> {
+  private async makeRequest(url: string, retryCount = 0): Promise<any> {
     await this.rateLimit()
     
     const apiKey = this.getApiKey()
     const urlWithToken = `${url}${url.includes('?') ? '&' : '?'}token=${apiKey}`
 
-    const response = await fetch(urlWithToken, {
-      headers: {
-        'Accept': 'application/json',
-      },
-    })
+    try {
+      const response = await fetch(urlWithToken, {
+        headers: {
+          'Accept': 'application/json',
+        },
+      })
 
-    if (!response.ok) {
+      if (response.status === 429) {
+        // Rate limited - implement exponential backoff
+        if (retryCount < this.maxRetries) {
+          const backoffDelay = this.rateLimitDelay * Math.pow(this.backoffMultiplier, retryCount)
+          console.log(`⚠️  Rate limited (429). Retrying in ${backoffDelay}ms... (attempt ${retryCount + 1}/${this.maxRetries})`)
+          await this.delay(backoffDelay)
+          return this.makeRequest(url, retryCount + 1)
+        } else {
+          throw new EdgarApiError(
+            `Rate limit exceeded after ${this.maxRetries} retries`,
+            429
+          )
+        }
+      }
+
+      if (!response.ok) {
+        throw new EdgarApiError(
+          `SEC API request failed: ${response.status} ${response.statusText}`,
+          response.status
+        )
+      }
+
+      return response.json()
+    } catch (error) {
+      if (error instanceof EdgarApiError) {
+        throw error
+      }
+      
+      // Network or other errors - retry if we haven't exceeded max retries
+      if (retryCount < this.maxRetries) {
+        const backoffDelay = this.rateLimitDelay * Math.pow(this.backoffMultiplier, retryCount)
+        console.log(`🔄 Network error. Retrying in ${backoffDelay}ms... (attempt ${retryCount + 1}/${this.maxRetries})`)
+        await this.delay(backoffDelay)
+        return this.makeRequest(url, retryCount + 1)
+      }
+      
       throw new EdgarApiError(
-        `SEC API request failed: ${response.status} ${response.statusText}`,
-        response.status
+        `Request failed after ${this.maxRetries} retries: ${error.message}`,
+        undefined,
+        error
       )
     }
-
-    return response.json()
   }
 
   // Get company info by ticker using sec-api.io mapping API
@@ -132,27 +171,27 @@ class EdgarService {
         }
       }
       
-      console.warn(`No company data found for ticker: ${ticker}`)
+      console.warn(`No company data found for ticker: ${ticker}, creating fallback record`)
       return {
-        cik: '',
-        name: ticker.toUpperCase(),
+        cik: `FALLBACK_${ticker}`,
+        name: `${ticker.toUpperCase()} Corporation`,
         ticker: ticker.toUpperCase(),
-        description: `${ticker.toUpperCase()} Corporation`,
+        description: `${ticker.toUpperCase()} - Data not available from SEC API`,
         website: undefined,
-        sicDescription: undefined,
+        sicDescription: 'Not Available',
         phone: undefined,
         address: undefined,
       }
     } catch (error) {
-      console.error(`Error fetching company data for ticker ${ticker}:`, error)
+      console.error(`Error fetching company data for ticker ${ticker}:`, error instanceof Error ? error.message : String(error))
       // Return basic fallback data
       return {
-        cik: '',
-        name: ticker.toUpperCase(),
+        cik: `FALLBACK_${ticker}`,
+        name: `${ticker.toUpperCase()} Corporation`,
         ticker: ticker.toUpperCase(),
-        description: `${ticker.toUpperCase()} Corporation`,
+        description: `${ticker.toUpperCase()} - API Error: ${error instanceof Error ? error.message : String(error)}`,
         website: undefined,
-        sicDescription: undefined,
+        sicDescription: 'API Error',
         phone: undefined,
         address: undefined,
       }
@@ -172,11 +211,13 @@ class EdgarService {
     return {}
   }
 
-  // Batch fetch companies by tickers
+  // Batch fetch companies by tickers with enhanced error handling
   async getCompaniesByTickers(tickers: string[]): Promise<CompanyData[]> {
     const results: CompanyData[] = []
+    const failed: string[] = []
     
     console.log(`Fetching data for ${tickers.length} companies...`)
+    console.log(`Using rate limit: ${this.rateLimitDelay}ms between requests`)
     
     for (let i = 0; i < tickers.length; i++) {
       const ticker = tickers[i]
@@ -186,14 +227,29 @@ class EdgarService {
         const company = await this.getCompanyByTicker(ticker)
         if (company) {
           results.push(company)
+          console.log(`  ✅ Success: ${company.name}`)
+        } else {
+          console.log(`  ⚠️  No data returned for ${ticker}`)
+          failed.push(ticker)
         }
       } catch (error) {
-        console.error(`Failed to fetch ${ticker}:`, error)
-        // Continue with next company
+        console.error(`  ❌ Failed to fetch ${ticker}:`, error instanceof Error ? error.message : String(error))
+        failed.push(ticker)
+        
+        // If it's a rate limit error that couldn't be resolved, wait longer
+        if (error instanceof EdgarApiError && error.statusCode === 429) {
+          console.log(`  ⏳ Adding extra delay after rate limit error...`)
+          await this.delay(5000) // 5 second pause
+        }
       }
     }
     
-    console.log(`Successfully fetched ${results.length}/${tickers.length} companies`)
+    console.log(`\n📊 Fetch Summary:`)
+    console.log(`✅ Successfully fetched: ${results.length}/${tickers.length} companies`)
+    if (failed.length > 0) {
+      console.log(`❌ Failed to fetch: ${failed.join(', ')}`)
+    }
+    
     return results
   }
 }

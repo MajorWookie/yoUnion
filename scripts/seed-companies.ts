@@ -149,7 +149,18 @@ class CompanySeeder {
         }
         
         if (result.error) {
-          console.error(`  ❌ Failed to insert ${company.ticker}:`, result.error.message)
+          // Handle specific error types
+          if (result.error.code === '23505') { // Unique constraint violation
+            console.log(`  ⚠️  ${company.ticker} already exists (unique constraint), skipping...`)
+            // Still count as processed for fallback data
+            insertedCompanies.push({
+              ticker: company.ticker,
+              name: company.name,
+              originalData: company,
+            })
+          } else {
+            console.error(`  ❌ Failed to insert ${company.ticker}:`, result.error.message)
+          }
           continue
         }
         
@@ -244,6 +255,54 @@ class CompanySeeder {
     console.log('✅ Embedding generation completed')
   }
 
+  async retryFailedCompanies(options: SeedOptions = {}): Promise<void> {
+    console.log('\n🔄 Retrying failed companies...')
+    
+    // Find companies with fallback CIKs (indicating API failures)
+    const { data: failedCompanies } = await supabase
+      .from('companies')
+      .select('ticker, name, cik')
+      .like('cik', 'FALLBACK_%')
+    
+    if (!failedCompanies || failedCompanies.length === 0) {
+      console.log('✅ No failed companies found to retry')
+      return
+    }
+    
+    console.log(`Found ${failedCompanies.length} companies that need retry:`)
+    failedCompanies.forEach(company => {
+      console.log(`  • ${company.ticker}: ${company.name}`)
+    })
+    
+    const tickers = failedCompanies.map(c => c.ticker)
+    
+    // Fetch fresh data
+    console.log('\n📊 Fetching fresh data from EDGAR API...')
+    const companyData = await edgarService.getCompaniesByTickers(tickers)
+    
+    // Update companies with new data
+    console.log('\n💾 Updating companies in database...')
+    for (const company of companyData) {
+      if (company.cik && !company.cik.startsWith('FALLBACK_')) {
+        console.log(`Updating ${company.ticker} with real CIK: ${company.cik}`)
+        
+        const { error } = await supabase
+          .from('companies')
+          .update({
+            cik: company.cik,
+            name: company.name,
+          })
+          .eq('ticker', company.ticker)
+        
+        if (error) {
+          console.error(`Failed to update ${company.ticker}:`, error.message)
+        }
+      }
+    }
+    
+    console.log('✅ Retry completed')
+  }
+
   async showStats(): Promise<void> {
     console.log('\n📊 Database Statistics:')
     
@@ -282,6 +341,7 @@ async function main() {
   const skipEmbeddings = args.includes('--skip-embeddings')
   const forceUpdate = args.includes('--force-update')
   const showStatsOnly = args.includes('--stats')
+  const retryFailedOnly = args.includes('--retry-failed')
   
   console.log('🏢 yoUnion Company Data Seeder')
   
@@ -297,6 +357,16 @@ async function main() {
     console.error('Add these to your .env.local file:')
     console.error('   EXPO_PUBLIC_SUPABASE_URL=your_supabase_url')
     console.error('   SUPABASE_SERVICE_ROLE_KEY=your_service_role_key')
+    console.error('   SEC_API_KEY=your_sec_api_key')
+    console.error('')
+    console.error('Usage:')
+    console.error('  npx tsx scripts/seed-companies.ts [options]')
+    console.error('')
+    console.error('Options:')
+    console.error('  --skip-embeddings    Skip generating embeddings')
+    console.error('  --force-update       Update existing companies')
+    console.error('  --retry-failed       Retry companies that failed to fetch')
+    console.error('  --stats              Show database statistics only')
     process.exit(1)
   }
   
@@ -313,11 +383,16 @@ async function main() {
     console.log(`\nOptions:`)
     console.log(`  Skip embeddings: ${skipEmbeddings ? 'Yes' : 'No'}`)
     console.log(`  Force update: ${forceUpdate ? 'Yes' : 'No'}`)
+    console.log(`  Retry failed only: ${retryFailedOnly ? 'Yes' : 'No'}`)
     
-    await seeder.seedCompanyData({
-      skipEmbeddings,
-      forceUpdate,
-    })
+    if (retryFailedOnly) {
+      await seeder.retryFailedCompanies({ skipEmbeddings })
+    } else {
+      await seeder.seedCompanyData({
+        skipEmbeddings,
+        forceUpdate,
+      })
+    }
     
     await seeder.showStats()
     
