@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { TamaguiProvider } from '@tamagui/core'
+import { TamaguiProvider } from 'tamagui'
 import { QueryClient, QueryClientProvider, onlineManager } from '@tanstack/react-query'
 import { useColorScheme } from 'react-native'
 import NetInfo from '@react-native-community/netinfo'

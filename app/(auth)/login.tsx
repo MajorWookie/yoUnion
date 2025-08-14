@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { router } from 'expo-router'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { YStack, XStack, Heading, Paragraph, Button, Input, Card } from '@tamagui/core'
+import { YStack, XStack, Heading, Paragraph, Button, Input, Card } from 'tamagui'
 import { SignInSchema, SignInInput } from '@/lib/schemas'
 import { signIn } from '@/lib/api/auth'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
@@ -107,10 +107,10 @@ export default function LoginScreen() {
 
             <XStack justifyContent="center" space="$2">
               <Paragraph size="$3" color="$gray11">Don't have an account?</Paragraph>
-              <Button 
-                size="$3" 
-                chromeless 
-                color="$blue10" 
+              <Button
+                size="$3"
+                chromeless
+                color="$blue10"
                 onPress={() => router.push('/(auth)/signup')}
               >
                 Sign Up

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { VictoryPie, VictoryContainer } from 'victory-native'
-import { XStack, YStack, Heading, Paragraph, Card, ToggleGroup } from '@tamagui/core'
+import { XStack, YStack, Heading, Paragraph, Card, ToggleGroup } from 'tamagui'
 import { IncomeStatement } from '@/lib/schemas'
 
 interface IncomeStatementPieProps {
@@ -45,7 +45,7 @@ function formatCurrency(value: number): string {
 export function IncomeStatementPie({ data, view, onViewChange }: IncomeStatementPieProps) {
   const chartData = useMemo(() => {
     const mapping = view === 'simple' ? SIMPLE_VIEW_MAPPING : DETAILED_VIEW_MAPPING
-    
+
     return data.lines
       .filter(line => mapping[line.lineCode as keyof typeof mapping])
       .map(line => ({
@@ -72,7 +72,7 @@ export function IncomeStatementPie({ data, view, onViewChange }: IncomeStatement
               FY{data.fiscalYear} {data.isAnnual ? 'Annual' : `Q${data.fiscalQuarter}`}
             </Paragraph>
           </YStack>
-          
+
           <ToggleGroup
             value={view}
             onValueChange={(value) => onViewChange(value as 'simple' | 'detailed')}
@@ -101,11 +101,11 @@ export function IncomeStatementPie({ data, view, onViewChange }: IncomeStatement
               />
             </VictoryContainer>
           </YStack>
-          
+
           <YStack flex={1} space="$2">
             <Heading size="$4">Total Revenue</Heading>
             <Heading size="$6" color="$blue10">{formatCurrency(totalRevenue)}</Heading>
-            
+
             <YStack space="$1" marginTop="$3">
               {chartData.map((item, index) => (
                 <XStack key={index} alignItems="center" space="$2">

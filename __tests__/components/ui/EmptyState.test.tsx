@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react-native'
 import { describe, it, expect, vi } from 'vitest'
 import { EmptyState } from '@/components/ui/EmptyState'
-import { TamaguiProvider } from '@tamagui/core'
+import { TamaguiProvider } from 'tamagui'
 import config from '@/tamagui.config'
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
@@ -28,7 +28,7 @@ describe('EmptyState', () => {
 
   it('renders action button when provided', () => {
     const mockAction = vi.fn()
-    
+
     render(
       <TestWrapper>
         <EmptyState
@@ -42,7 +42,7 @@ describe('EmptyState', () => {
 
     const actionButton = screen.getByText('Search Again')
     expect(actionButton).toBeTruthy()
-    
+
     fireEvent.press(actionButton)
     expect(mockAction).toHaveBeenCalledTimes(1)
   })
