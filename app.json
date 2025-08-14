@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "Younion",
-    "slug": "younion",
+    "name": "yoUnion",
+    "slug": "yoUnion",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "younion",
+    "scheme": "yoUnion",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.majorwookie.younion",
+      "bundleIdentifier": "com.majorwookie.yoUnion",
       "buildNumber": "1",
       "infoPlist": {
         "NSAppTransportSecurity": {
@@ -27,11 +27,11 @@
         "usesNonExemptEncryption": false
       },
       "associatedDomains": [
-        "applinks:younion.app"
+        "applinks:yoUnion.app"
       ]
     },
     "android": {
-      "package": "com.majorwookie.younion",
+      "package": "com.majorwookie.yoUnion",
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
@@ -48,7 +48,7 @@
           "data": [
             {
               "scheme": "https",
-              "host": "younion.app",
+              "host": "yoUnion.app",
               "pathPrefix": "/"
             }
           ],
@@ -95,8 +95,8 @@
       [
         "@sentry/react-native/expo",
         {
-          "organization": "younion",
-          "project": "younion-app"
+          "organization": "yoUnion",
+          "project": "yoUnion-app"
         }
       ]
     ],

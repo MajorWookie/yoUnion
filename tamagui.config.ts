@@ -1,3 +1,9 @@
-import { config } from '@tamagui/config/v3'
+import { createTamagui } from '@tamagui/core'
+import { config } from '@tamagui/config'
 
-export default config
+const tamaguiConfig = createTamagui({
+    ...config,
+    fontLanguages: ['en'],
+})
+
+export default tamaguiConfig

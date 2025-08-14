@@ -1,6 +1,6 @@
 import React from 'react'
 import { router } from 'expo-router'
-import { YStack, XStack, Heading, Paragraph, Button, Card, Separator, Switch } from '@tamagui/core'
+import { YStack, XStack, Heading, Paragraph, Button, Card, Separator, Switch } from 'tamagui'
 import { User, Settings, LogOut, Moon, Sun, Smartphone } from '@tamagui/lucide-icons'
 import { useQuery } from '@tanstack/react-query'
 import { signOut, getProfile } from '@/lib/api/auth'
@@ -143,7 +143,7 @@ export default function ProfileScreen() {
 
         <YStack alignItems="center" marginTop="$4">
           <Paragraph size="$2" color="$gray11">
-            Younion v1.0.0
+            yoUnion v1.0.0
           </Paragraph>
         </YStack>
       </YStack>

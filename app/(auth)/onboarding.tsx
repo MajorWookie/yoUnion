@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { router } from 'expo-router'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { YStack, XStack, Heading, Paragraph, Button, Input, Card, Progress } from '@tamagui/core'
+import { YStack, XStack, Heading, Paragraph, Button, Input, Card, Progress } from 'tamagui'
 import { BasicInfoSchema, BasicInfoInput, EmploymentInfoSchema, EmploymentInfoInput } from '@/lib/schemas'
 import { updateProfile } from '@/lib/api/auth'
 import { useAppStore } from '@/lib/stores/app-store'
@@ -69,7 +69,7 @@ export default function OnboardingScreen() {
       <Card padding="$6" maxWidth={400} alignSelf="center" width="100%">
         <YStack space="$6">
           <YStack space="$4" alignItems="center">
-            <Heading size="$7">Welcome to Younion</Heading>
+            <Heading size="$7">Welcome to yoUnion</Heading>
             <Paragraph size="$4" color="$gray11" textAlign="center">
               Let's set up your profile to get personalized financial insights
             </Paragraph>
@@ -87,7 +87,7 @@ export default function OnboardingScreen() {
           {step === 1 && (
             <YStack space="$4">
               <Heading size="$5">Basic Information</Heading>
-              
+
               <YStack space="$2">
                 <Paragraph size="$3" fontWeight="600">First Name *</Paragraph>
                 <Controller
@@ -205,10 +205,10 @@ export default function OnboardingScreen() {
                 <Button flex={1} size="$4" onPress={onSkipEmployment}>
                   Skip for Now
                 </Button>
-                <Button 
-                  flex={1} 
-                  size="$4" 
-                  theme="blue" 
+                <Button
+                  flex={1}
+                  size="$4"
+                  theme="blue"
                   onPress={employmentForm.handleSubmit(onEmploymentInfoSubmit)}
                 >
                   Complete

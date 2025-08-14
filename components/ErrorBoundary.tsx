@@ -1,5 +1,5 @@
 import React from 'react'
-import { YStack, Heading, Paragraph, Button, Card } from '@tamagui/core'
+import { YStack, Heading, Paragraph, Button, Card } from 'tamagui'
 import { AlertTriangle, RefreshCw } from '@tamagui/lucide-icons'
 import * as Application from 'expo-application'
 
@@ -152,7 +152,7 @@ function DefaultErrorFallback({
                                 <Paragraph size="$2" fontFamily="$mono" color="$red10">
                                     {error.toString()}
                                 </Paragraph>
-                                {errorInfo && (
+                                {errorInfo && errorInfo.componentStack && (
                                     <Paragraph size="$1" fontFamily="$mono" color="$gray10">
                                         {errorInfo.componentStack.slice(0, 200)}...
                                     </Paragraph>

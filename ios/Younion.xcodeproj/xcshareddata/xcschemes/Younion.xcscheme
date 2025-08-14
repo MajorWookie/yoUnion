@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "Younion.app"
-               BlueprintName = "Younion"
-               ReferencedContainer = "container:Younion.xcodeproj">
+               BuildableName = "yoUnion.app"
+               BlueprintName = "yoUnion"
+               ReferencedContainer = "container:yoUnion.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "YounionTests.xctest"
-               BlueprintName = "YounionTests"
-               ReferencedContainer = "container:Younion.xcodeproj">
+               BuildableName = "yoUnionTests.xctest"
+               BlueprintName = "yoUnionTests"
+               ReferencedContainer = "container:yoUnion.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Younion.app"
-            BlueprintName = "Younion"
-            ReferencedContainer = "container:Younion.xcodeproj">
+            BuildableName = "yoUnion.app"
+            BlueprintName = "yoUnion"
+            ReferencedContainer = "container:yoUnion.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Younion.app"
-            BlueprintName = "Younion"
-            ReferencedContainer = "container:Younion.xcodeproj">
+            BuildableName = "yoUnion.app"
+            BlueprintName = "yoUnion"
+            ReferencedContainer = "container:yoUnion.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

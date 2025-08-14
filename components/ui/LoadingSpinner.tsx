@@ -1,4 +1,4 @@
-import { Spinner, YStack } from '@tamagui/core'
+import { Spinner, YStack } from 'tamagui'
 
 interface LoadingSpinnerProps {
   size?: 'small' | 'large'

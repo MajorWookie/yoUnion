@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { router, useLocalSearchParams } from 'expo-router'
-import { YStack, XStack, Heading, Paragraph, Button, Card, ScrollView, ToggleGroup } from '@tamagui/core'
+import { YStack, XStack, Heading, Paragraph, Button, Card, ScrollView, ToggleGroup } from 'tamagui'
 import { Building, FileText, DollarSign, Users } from '@tamagui/lucide-icons'
 import { useQuery } from '@tanstack/react-query'
 import { getCompanyOverview, getIncomeStatement } from '@/lib/api/companies'
+import type { CompanyOverview, IncomeStatement } from '@/lib/schemas'
 import { useAppStore } from '@/lib/stores/app-store'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 import { ErrorState } from '@/components/ui/ErrorState'
@@ -15,14 +16,19 @@ export default function CompanyOverviewScreen() {
   const [period, setPeriod] = useState<'annual' | 'quarterly'>('annual')
   const { setLastViewedCompany } = useAppStore()
 
-  const { data: company, isLoading: companyLoading, error: companyError } = useQuery({
+  const { data: company, isLoading: companyLoading, error: companyError } = useQuery<CompanyOverview>({
     queryKey: ['company', ticker],
     queryFn: () => getCompanyOverview(ticker!),
     enabled: !!ticker,
-    onSuccess: () => setLastViewedCompany(ticker!),
   })
 
-  const { data: incomeStatement, isLoading: incomeLoading } = useQuery({
+  useEffect(() => {
+    if (company && ticker) {
+      setLastViewedCompany(ticker)
+    }
+  }, [company, ticker, setLastViewedCompany])
+
+  const { data: incomeStatement, isLoading: incomeLoading } = useQuery<IncomeStatement | null>({
     queryKey: ['incomeStatement', company?.id, period],
     queryFn: () => getIncomeStatement(company!.id, undefined, period === 'annual'),
     enabled: !!company,
@@ -55,10 +61,10 @@ export default function CompanyOverviewScreen() {
 
   return (
     <ScrollView flex={1} backgroundColor="$background" showsVerticalScrollIndicator={false}>
-      <YStack padding="$4" space="$6">
+      <YStack padding="$4" gap="$6">
         {/* Company Header */}
         <Card padding="$4">
-          <XStack alignItems="center" space="$4">
+          <XStack alignItems="center" gap="$4">
             <YStack
               width={60}
               height={60}
@@ -90,13 +96,13 @@ export default function CompanyOverviewScreen() {
         {/* Pay Ratio Card */}
         {company.payRatio && (
           <Card padding="$4">
-            <YStack space="$3">
-              <XStack alignItems="center" space="$3">
+            <YStack gap="$3">
+              <XStack alignItems="center" gap="$3">
                 <DollarSign size={24} color="$orange10" />
                 <Heading size="$5">CEO Pay Ratio ({company.payRatio.year})</Heading>
               </XStack>
 
-              <YStack space="$2">
+              <YStack gap="$2">
                 <XStack justifyContent="space-between" alignItems="center">
                   <Paragraph size="$4" color="$gray11">CEO Total Compensation</Paragraph>
                   <Heading size="$5" color="$green10">
@@ -155,7 +161,7 @@ export default function CompanyOverviewScreen() {
 
         {!incomeLoading && !incomeStatement && (
           <Card padding="$4">
-            <YStack alignItems="center" space="$3">
+            <YStack alignItems="center" gap="$3">
               <FileText size={32} color="$gray10" />
               <Paragraph size="$4" color="$gray11" textAlign="center">
                 No {period} financial data available
@@ -165,7 +171,7 @@ export default function CompanyOverviewScreen() {
         )}
 
         {/* Actions */}
-        <XStack space="$3">
+        <XStack gap="$3">
           <Button
             flex={1}
             size="$4"

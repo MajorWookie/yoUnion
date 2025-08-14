@@ -1,4 +1,4 @@
-import { YStack, Heading, Paragraph, Button } from '@tamagui/core'
+import { YStack, Heading, Paragraph, Button } from 'tamagui'
 import { TriangleAlert as AlertTriangle } from '@tamagui/lucide-icons'
 
 interface ErrorStateProps {
