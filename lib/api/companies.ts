@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabase'
 import { CompanyOverview, IncomeStatement, Filing } from '@/lib/schemas'
+import { embeddingService } from '@/lib/services/embedding'
 import { z } from 'zod'
 
 // Custom API Error class
@@ -19,6 +20,7 @@ export class ApiError extends Error {
 const SearchCompaniesSchema = z.object({
   query: z.string().min(1).max(100).transform(str => str.trim()),
   limit: z.number().min(1).max(50).default(20),
+  useSemanticSearch: z.boolean().default(true),
 })
 
 const GetCompanySchema = z.object({
@@ -38,30 +40,26 @@ function sanitizeSearchQuery(query: string): string {
   return query.replace(/[%_\\]/g, '\\$&')
 }
 
-export async function searchCompanies(query: string, limit = 20) {
+export async function searchCompanies(query: string, limit = 20, useSemanticSearch = true) {
   try {
     // Validate and sanitize inputs
-    const validated = SearchCompaniesSchema.parse({ query, limit })
-    const sanitizedQuery = sanitizeSearchQuery(validated.query)
-
-    const { data, error } = await supabase
-      .from('companies')
-      .select('id, ticker, name, logo_url')
-      .or(`name.ilike.%${sanitizedQuery}%, ticker.ilike.%${sanitizedQuery}%`)
-      .order('name')
-      .limit(validated.limit)
-
-    if (error) {
-      console.error('Search companies error:', error)
-      throw new ApiError(
-        'Failed to search companies',
-        error.code,
-        undefined,
-        error
-      )
+    const validated = SearchCompaniesSchema.parse({ query, limit, useSemanticSearch })
+    
+    // Try semantic search first if enabled and available
+    if (validated.useSemanticSearch) {
+      try {
+        const semanticResults = await performSemanticSearch(validated.query, validated.limit)
+        if (semanticResults.length > 0) {
+          return semanticResults
+        }
+        console.log('No semantic search results, falling back to text search')
+      } catch (error) {
+        console.warn('Semantic search failed, falling back to text search:', error)
+      }
     }
-
-    return data || []
+    
+    // Fallback to traditional text search
+    return await performTextSearch(validated.query, validated.limit)
   } catch (error) {
     if (error instanceof z.ZodError) {
       throw new ApiError('Invalid search parameters', 'VALIDATION_ERROR', 400, error)
@@ -71,6 +69,58 @@ export async function searchCompanies(query: string, limit = 20) {
     }
     throw new ApiError('An unexpected error occurred', 'UNKNOWN_ERROR', 500, error)
   }
+}
+
+// Traditional text-based search
+async function performTextSearch(query: string, limit: number) {
+  const sanitizedQuery = sanitizeSearchQuery(query)
+  
+  const { data, error } = await supabase
+    .from('companies')
+    .select('id, ticker, name, logo_url')
+    .or(`name.ilike.%${sanitizedQuery}%, ticker.ilike.%${sanitizedQuery}%`)
+    .order('name')
+    .limit(limit)
+
+  if (error) {
+    console.error('Text search error:', error)
+    throw new ApiError(
+      'Failed to search companies',
+      error.code,
+      undefined,
+      error
+    )
+  }
+
+  return data || []
+}
+
+// Semantic search using embeddings
+async function performSemanticSearch(query: string, limit: number) {
+  // Generate embedding for the search query
+  const queryEmbedding = await embeddingService.generateEmbedding(query)
+  
+  // Convert embedding array to PostgreSQL vector format
+  const embeddingVector = `[${queryEmbedding.join(',')}]`
+  
+  // Use RPC function for similarity search
+  const { data, error } = await supabase.rpc('search_companies_by_embedding', {
+    query_embedding: embeddingVector,
+    match_threshold: 0.7, // Adjust threshold as needed
+    match_count: limit
+  })
+  
+  if (error) {
+    console.error('Semantic search error:', error)
+    throw new ApiError(
+      'Semantic search failed',
+      error.code,
+      undefined,
+      error
+    )
+  }
+  
+  return data || []
 }
 
 export async function getCompanyOverview(ticker: string): Promise<CompanyOverview> {
