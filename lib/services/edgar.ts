@@ -142,7 +142,7 @@ class EdgarService {
       }
       
       throw new EdgarApiError(
-        `Request failed after ${this.maxRetries} retries: ${error.message}`,
+        `Request failed after ${this.maxRetries} retries: ${error instanceof Error ? error.message : String(error)}`,
         undefined,
         error
       )
