@@ -63,7 +63,7 @@ function RootLayoutContent() {
   const { theme } = useAppStore()
 
   // Determine active theme
-  const activeTheme = theme === 'system' ? systemTheme : theme
+  const activeTheme = theme === 'system' ? (systemTheme || 'light') : theme
 
   // Verify security on mount (development only)
   useEffect(() => {
@@ -86,11 +86,11 @@ function RootLayoutContent() {
   }, [])
 
   return (
-    <TamaguiProvider config={config} defaultTheme={activeTheme}>
+    <TamaguiProvider config={config as any} defaultTheme={activeTheme}>
       <QueryClientProvider client={queryClient}>
         <Stack screenOptions={{
           headerShown: false,
-          animation: 'ios', // Smooth animations
+          animation: 'slide_from_right', // Smooth animations
           gestureEnabled: true,
         }}>
           <Stack.Screen

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import { router } from 'expo-router'
 import { FlashList } from '@shopify/flash-list'
-import { YStack, XStack, Heading, Paragraph, Button, Input, Card, ListItem, Separator } from '@tamagui/core'
+import { YStack, XStack, Heading, Paragraph, Button, Input, Card, ListItem, Separator } from 'tamagui'
 import { Search, Building, TrendingUp } from '@tamagui/lucide-icons'
 import { useQuery } from '@tanstack/react-query'
 import { searchCompanies } from '@/lib/api/companies'
@@ -209,10 +209,6 @@ function HomeScreenContent() {
             keyExtractor={keyExtractor}
             ItemSeparatorComponent={ItemSeparator}
             contentContainerStyle={{ paddingBottom: 20 }}
-            removeClippedSubviews={true}
-            maxToRenderPerBatch={10}
-            windowSize={10}
-            drawDistance={200}
             ListEmptyComponent={ListEmptyComponent}
             showsVerticalScrollIndicator={false}
             testID="companies-list"
