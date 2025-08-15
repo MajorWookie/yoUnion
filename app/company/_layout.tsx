@@ -17,13 +17,7 @@ export default function CompanyLayout() {
           headerBackTitle: 'Back'
         }} 
       />
-      <Stack.Screen 
-        name="[ticker]/filing/[filingId]" 
-        options={{ 
-          title: 'Filing Details',
-          headerBackTitle: 'Back'
-        }} 
-      />
+
     </Stack>
   )
 }

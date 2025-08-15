@@ -23,7 +23,14 @@
     "test:e2e:ios": "detox test --configuration ios.sim.debug",
     "test:e2e:android": "detox test --configuration android.emu.debug",
     "web": "expo start --web",
-    "build:web": "expo export --platform web"
+    "build:web": "expo export --platform web",
+    "fix-dev-build": "node scripts/fix-dev-build.js",
+    "fix-dev-build:ios": "node scripts/fix-dev-build.js ios",
+    "fix-dev-build:android": "node scripts/fix-dev-build.js android",
+    "install-dev-client:ios": "npx expo run:ios",
+    "install-dev-client:android": "npx expo run:android",
+    "dev-client:ios": "npm run install-dev-client:ios && npm run dev",
+    "dev-client:android": "npm run install-dev-client:android && npm run dev"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",

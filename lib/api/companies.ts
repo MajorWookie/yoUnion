@@ -52,7 +52,9 @@ export async function searchCompanies(query: string, limit = 20, useSemanticSear
         if (semanticResults.length > 0) {
           return semanticResults
         }
-        console.log('No semantic search results, falling back to text search')
+        if (__DEV__) {
+          console.log('No semantic search results, falling back to text search')
+        }
       } catch (error) {
         console.warn('Semantic search failed, falling back to text search:', error)
       }
